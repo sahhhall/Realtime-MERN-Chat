@@ -1,0 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+
+.App{
+    min-height: 100vh;
+    display: flex;
+    
+}
+.text-sign {
+    font-family: "Open Sans", sans-serif;
+    font-weight: bold;
+    font-size: medium;
+}
+.top-box{
+    padding-top: 13%;
+}

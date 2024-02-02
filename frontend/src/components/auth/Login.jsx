@@ -6,7 +6,7 @@ const Login = () => {
     mail: '',
     password: '',
   });
-  const [showPassword, setShowPassword] = useState(false);
+  const [ showPassword, setShowPassword ] = useState(false);
 
   function handleChange(event) {
     setFormData((prevFormData) => ({

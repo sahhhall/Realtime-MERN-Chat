@@ -14,3 +14,41 @@
 .top-box{
     padding-top: 13%;
 }
+.input-fields::placeholder{
+   font-size: 10px;
+   
+   justify-content: center;
+}
+.input-fields[type="text"]
+{
+    font-size:12px;
+    letter-spacing: 1px;
+}
+.copyright-p{
+    font-family: Roboto, Helvetica, Arial, sans-serif;
+    font-weight: 400;
+    font-size: 0.875rem;
+    line-height: 1.43;
+    letter-spacing: 0.01071em;
+    text-align: center;
+    color: rgba(0, 0, 0, 0.6);
+}
+.ad-text{
+    font-family: Roboto, Helvetica, Arial, sans-serif;
+    font-weight: 200;
+    font-size: 0.475rem;
+    line-height: 1.43;
+    letter-spacing: 0.01071em;
+    text-align: center;
+    color: rgba(0, 0, 0, 0.6);
+}
+.guest-tag{
+    font-size:0.665rem ;
+    cursor: pointer;
+}
+.span-guest:hover{
+font-weight: bold;
+}
+.span-guest{
+color: blue;
+}

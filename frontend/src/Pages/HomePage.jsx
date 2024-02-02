@@ -1,6 +1,18 @@
-import {Container, Box, Text, Image, Tabs, TabList, TabPanels, Tab, TabPanel  }  from '@chakra-ui/react'
+import {
+    Container,
+    Box,
+    Text,
+    Image,
+    Tabs,
+    TabList,
+    TabPanels,
+    Tab,
+    TabPanel
+} from '@chakra-ui/react'
 import React from 'react'
 import signin from '../assets/signIn.png'
+import Signup from '../components/auth/Signup'
+import Login from '../components/auth/Login'
 const HomePage = () => {
     return (
         <Container centerContent>
@@ -10,25 +22,39 @@ const HomePage = () => {
                     boxSize='50px'
                     objectFit='cover'/>
                 <Text className='text-sign'>
-                    Sign in
+
                 </Text>
             </Box>
             <Box>
-                <Tabs >
+                <Tabs>
                     <TabList width={'300px'}>
-                        <Tab width={'50%'}>Sign In</Tab>
-                        <Tab  width={'50%'}>Sign Up</Tab>
+                        <Tab width={'50%'}>Log In</Tab>
+                        <Tab width={'50%'}>Sign Up</Tab>
                     </TabList>
                     <TabPanels>
                         <TabPanel>
-                            <p>one!</p>
+                            <Login/>
+                            <Box mt={'8px'}>
+                                <p className='copyright-p'>a new era of messaging
+                                </p>
+                                <p className='ad-text'>Copyright ©  sahal 2024.</p>
+
+                            </Box>
                         </TabPanel>
                         <TabPanel>
-                            <p>two!</p>
+                            <Signup/>
+                            <Box mt={'13px'}>
+                                <p className='copyright-p'>a new era of messaging
+                                </p>
+                                <p className='ad-text'>Copyright ©  sahal 2024.</p>
+
+                            </Box>
+
                         </TabPanel>
                     </TabPanels>
                 </Tabs>
             </Box>
+
         </Container>
     )
 }

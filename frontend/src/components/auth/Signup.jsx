@@ -80,8 +80,8 @@ const Signup = () => {
             name='confirmPass'
             placeholder='confirm password'
             onChange={handleChange}
-            value={formData.confirmPass}
-            type= {showConfirmPassword ? 'text' : 'password' } 
+            value={ formData.confirmPass}
+            type= { showConfirmPassword ? 'text' : 'password' } 
           />
           <InputRightElement width='4.5rem'>
             <Button  background='white' h='1.15rem' size='sm' onClick={handleToggleConfirmPassword}>

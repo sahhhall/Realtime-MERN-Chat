@@ -23,7 +23,7 @@ const Login = () => {
 
   return (
     <VStack spacing={3}>
-      <FormControl isRequired id='mail'>
+      <FormControl isRequired id='maill'>
         <Input
           borderColor='black.100'
           className='input-fields'
@@ -35,7 +35,7 @@ const Login = () => {
         />
       </FormControl>
 
-      <FormControl isRequired id='password'>
+      <FormControl isRequired id='passwordd'>
         <InputGroup>
           <Input
             borderColor='black.100'

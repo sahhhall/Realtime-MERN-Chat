@@ -52,3 +52,18 @@ font-weight: bold;
 .span-guest{
 color: blue;
 }
+.span-validtion-err{
+    color: red;
+    font-size: .6244em;
+    display: none;
+}
+.input-fields:invalid[focus = 'true'] ~ span {
+    display: block;
+}
+.input-fields:invalid[focus = 'true'] ~ focusBorderColor {
+   color: blue;
+}
+.span--err{
+    color: red;
+    font-size: .6244em; 
+}

@@ -3,6 +3,7 @@ import { FormControl, FormLabel, Input, VStack, InputGroup, InputRightElement, B
 import axios, { Axios } from 'axios';
 import fileUpload from '../../services/cloudinaryFileUploader';
 import { useNavigate } from 'react-router-dom'
+import validateField from '../../utils/validationPatterns';
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -96,13 +97,13 @@ const Signup = () => {
     
     if( !formData.mail.trim()) {
       validateErrors.mail = "E-mail is required"
-    }else if (!/\S+@\S+\.\S+/.test(formData.mail)) {
+    }else if (!validateField('mail', formData.mail)) {
       validateErrors.mail = "Email not valid";
     }
     
     if( !formData.password.trim()) {
       validateErrors.password = "password is required"
-    }else if (  !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/.test(formData.password)  ){
+    }else if ( !validateField('password', formData.password)  ){
       validateErrors.password =  "Password must be Strong"
     }
 
@@ -149,10 +150,14 @@ const Signup = () => {
         setLoading(false)
       }
 
+    }else{
+      setTimeout(() => {
+        setErr({})
+      },3000)   
     }
-    return
-    
+    return 
   }
+  
   return (
     <VStack spacing={3}>
       <FormControl  id='name'>

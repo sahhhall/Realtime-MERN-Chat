@@ -5,12 +5,14 @@ const chats = require('../backend/chat');
 const cors = require('cors');
 const connectDB = require('./config/db');
 const userRoutes = require('./routes/userRouter');
+const chatRoutes  = require('./routes/chatRoute')
 const { notFound, globalErrorHandler } = require('./middlewares/errorHandler');
 dotenv.config()
 connectDB()
 app.use(cors());
 app.use(express.json());
 app.use('/api/user',userRoutes)
+app.use('/api/chat', chatRoutes)
 app.use(notFound)
 app.use(globalErrorHandler)
 

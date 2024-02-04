@@ -138,10 +138,10 @@ const Signup = () => {
         localStorage.setItem('userInfo' , JSON.stringify(data))
         setLoading(false)
         navigate('/chat')
-      }catch(err){
+      }catch(error){
         toast({
           title: 'Error occured',
-          description: err.message,
+          description: error.response.data.message,
           status: 'error',
           isClosable: true,
           duration: 3000,

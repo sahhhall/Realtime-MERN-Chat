@@ -52,7 +52,7 @@ const authUser = asyncHandler(async (req,res) => {
             })
         }else{
             res.status(401)
-            throw new Error("incorrect pass")
+            throw new Error("incorrect password")
         }
     }
 })

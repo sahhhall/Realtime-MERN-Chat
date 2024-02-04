@@ -28,6 +28,8 @@ userModal.methods.matchPassword = async function (enteredPass) {
     return await bcrypt.compare(enteredPass,this.password)
 }
 
+
+//before inserting pass to dB bcrypting
 userModal.pre("save", async function (next){
     if(!this.isModified){
         next()

@@ -135,7 +135,7 @@ const Signup = () => {
           duration: 3000,
           position: 'top-right',
         })
-        localStorage.setItem('userInfo' , JSON.stringify(data))
+        localStorage.setItem('userDetails' , JSON.stringify(data))
         setLoading(false)
         navigate('/chat')
       }catch(error){

@@ -9,12 +9,15 @@ import {
     Tab,
     TabPanel
 } from '@chakra-ui/react'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import signin from '../assets/signIn.png'
 import Signup from '../components/auth/Signup'
 import Login from '../components/auth/Login'
+import { useNavigate } from 'react-router-dom'
 const HomePage = () => {
-    return (
+    
+    
+    return ( 
         <Container centerContent>
             <Box className='top-box'>
                 <Image src={signin}

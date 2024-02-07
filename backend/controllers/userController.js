@@ -62,6 +62,7 @@ const getAllUsers = asyncHandler(async (req, res) => {
     console.log("hii");
     const word = req.query.search
     // don want current user so.... 
+    console.log(word);
     const currentUserId = req.user._id
     const users =await User.find({
         $or:[

@@ -15,14 +15,16 @@ import axios from 'axios';
 import UserLoad from '../UserLoad'
 import { ChatState } from '../../context/ChatProvider';
 import UserBoxModel from '../UserBox/UserBoxModel';
+import { ChatBoxHistory } from '../UserBox/ChatBoxHistory';
 function UserChats () {
   const [ search, setSearch ] = useState("");
   const [ searchResult, setSearchResult ] = useState([])
   const [ loading, setLoading ] = useState(false)
   const [ loadinCht , setLoadingCht ] = useState()
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const { user } = ChatState();
-  const handleSearch = async() => {
+  const { user, setSElectedChat } = ChatState();
+  const handleSearch = async(value) => {
+    setSearch(value)
     if(!search){
       return
     }
@@ -35,15 +37,31 @@ function UserChats () {
         }
       }
 
-      const { data } = await axios.get(`http://localhost:4001/api/user?search=${search}`,config)
+      const { data } = await axios.get(`http://localhost:4001/api/user?search=${value}`,config)
       setLoading(false)
       setSearchResult(data)
     }catch(error){
       console.log(error.message);
     }
   }
-  const accessChat = () => {
-    console.log("u");
+
+  const accessChat = async() => {
+    try{
+      setLoadingCht(true)
+      const config = {
+        headers : {
+          Authorization: `Bearer ${user.token}`,
+          "Content-type" : "application/json"
+        }
+      }
+      const { data } = await axios.post(`http://localhost:4001/api/chat`,{
+        userId
+      },config)
+      setSElectedChat(data);
+      setLoadingCht(false)
+    }catch(error){
+      console.log(error.message);
+    }
   }
   return (
     < >
@@ -63,15 +81,17 @@ function UserChats () {
     value={search}
     focusBorderColor='blue.100'
     outline={'none'}
-    onChange={(event) => setSearch(event.target.value)}
+    onChange={(event) => handleSearch(event.target.value)}
     
   />
     <InputRightElement
     mr={'9px'}
-    
+      _hover={'none'}
+      cursor={'disabled'}
+      pointerEvents={'none'}
       children={<Button
         background={'transparent'}
-      onClick={handleSearch}>
+      >
       <FontAwesomeIcon icon={faMagnifyingGlass} />
     </Button>}
     />
@@ -89,7 +109,7 @@ function UserChats () {
     />
   ))
 )}
-
+<ChatBoxHistory/>
 </Box>
       </div>
 

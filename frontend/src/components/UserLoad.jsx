@@ -5,9 +5,9 @@ import React from 'react'
   return (
     <div>
         <Stack>
-  <Skeleton height='20px' />
-  <Skeleton height='20px' />
-  <Skeleton height='20px' />
+  <Skeleton height='30px' />
+  <Skeleton height='30px' />
+  <Skeleton height='30px' />
 </Stack>
     </div>
   )

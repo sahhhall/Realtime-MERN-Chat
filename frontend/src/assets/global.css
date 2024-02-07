@@ -19,6 +19,11 @@
    
    justify-content: center;
 }
+.input-field-chat::placeholder{
+   font-size: .7rem;
+   
+   justify-content: center;
+}
 .input-fields[type="text"]
 {
     font-size:12px;
@@ -66,4 +71,35 @@ color: blue;
 .span--err{
     color: red;
     font-size: .6244em; 
+}
+
+.logout-btn{
+    display: flex;
+    align-items: center;
+    padding-left: 1rem;
+    padding: 1rem;
+    font-family: "Open Sans", sans-serif;
+    font-size:small;
+    font-weight: 600;
+    letter-spacing: .01rem;
+    cursor: pointer;
+
+}
+.logout-btn:hover{
+    background-color: lightblue;
+}
+
+@media screen and (max-width: 586px) {
+.input-grp-search{
+    width: 100% !important;
+}
+.box-user-chatlist{
+    width: 100% !important;
+}
+.chat-area{
+    display: none;
+}
+.user-chat-main{
+width: 100% !important;
+}
 }

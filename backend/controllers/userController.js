@@ -62,15 +62,17 @@ const getAllUsers = asyncHandler(async (req, res) => {
     console.log("hii");
     const word = req.query.search
     // don want current user so.... 
+    if(word.trim() === ""){
+        console.log(888);
+    }
     console.log(word);
     const currentUserId = req.user._id
     const users =await User.find({
         $or:[
-            {name:{$regex:word, $options:"i"}},
-            {mail:{$regex:word, $options:"i"}}
+            {name:{$regex:word, $options:"i"}}
         ]
     }).find({ _id: { $ne: currentUserId} })
-    
+    console.log(users);
     res.send(users)
     
 })

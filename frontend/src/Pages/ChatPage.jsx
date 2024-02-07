@@ -11,13 +11,14 @@ const ChatPage = () => {
         <div style={{width:'100%'}}>
             {user&& <SideDrawer/>}
             <Box
-            display='flex'
-            justifyContent='space-between'
-            width='100%'
-            h='94vh'
+          display='flex'
+          justifyContent={'space-between'}
+          flexGrow={1} // This will make the container grow to take up remaining space
+          width='100%'
+          minHeight={0} 
             > 
-                 {user && <UserChats/>} 
-                 {user && <ChatArea/>} 
+                 {user && <UserChats style={{ width: '50%' }} />} 
+                 {user && <ChatArea style={{ flex: '1', width: '50%' }}/>} 
             </Box>
         </div>
     )

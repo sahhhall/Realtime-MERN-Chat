@@ -1,7 +1,7 @@
-import { Box, Button, Tooltip, Text, Menu, useDisclosure, Input, InputGroup, InputRightElement, InputLeftElement } from '@chakra-ui/react';
-import React, { useState } from 'react'
+import { Box, Button, Tooltip, Text, Menu, useDisclosure, Input, InputGroup, InputRightElement, InputLeftElement, Avatar } from '@chakra-ui/react';
+import React, { useCallback, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBars, faCoffee, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
+import { faBars, faCoffee, faMagnifyingGlass, faRightFromBracket } from '@fortawesome/free-solid-svg-icons'
 import {
   Drawer,
   DrawerBody,
@@ -14,8 +14,11 @@ import {
 import axios from 'axios';
 import UserLoad from '../UserLoad'
 import { ChatState } from '../../context/ChatProvider';
-import UserBoxModel from '../UserBox/UserBoxModel';
-import { ChatBoxHistory } from '../UserBox/ChatBoxHistory';
+import UserBoxModel from '../UserChatLog/UserBoxModel';
+import { ChatBoxHistory } from '../UserChatLog/ChatBoxHistory';
+import debounce from '../../utils/debounce';
+import { useNavigate } from 'react-router-dom';
+
 function UserChats () {
   const [ search, setSearch ] = useState("");
   const [ searchResult, setSearchResult ] = useState([])
@@ -23,29 +26,34 @@ function UserChats () {
   const [ loadinCht , setLoadingCht ] = useState()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { user, setSElectedChat } = ChatState();
-  const handleSearch = async(value) => {
-    setSearch(value)
-    if(!search){
-      return
+  const navigate = useNavigate();
+  const handleSearch = async (value) => {
+    setSearch(value); 
+    if (!value) {
+      
+      return;
     }
-    try{
-      setLoading(true)
+    try {
+      console.log(1111);
+ 
+      setLoading(true);
       const config = {
-        headers:{
+        headers: {
           Authorization: `Bearer ${user.token}`,
-
-        }
-      }
-
-      const { data } = await axios.get(`http://localhost:4001/api/user?search=${value}`,config)
-      setLoading(false)
-      setSearchResult(data)
-    }catch(error){
+        },
+      };
+  
+      const { data } = await axios.get(`http://localhost:4001/api/user?search=${value}`, config);
+      setLoading(false);
+      setSearchResult(data);
+    } catch (error) {
       console.log(error.message);
     }
-  }
-
+  };
+// usecallback providev us the memozized callback 
+  const optimizedHandler = useCallback(debounce(handleSearch),[])
   const accessChat = async() => {
+    setSearch(""); 
     try{
       setLoadingCht(true)
       const config = {
@@ -54,6 +62,7 @@ function UserChats () {
           "Content-type" : "application/json"
         }
       }
+      
       const { data } = await axios.post(`http://localhost:4001/api/chat`,{
         userId
       },config)
@@ -63,30 +72,43 @@ function UserChats () {
       console.log(error.message);
     }
   }
+
+  const handleSignout = () => {
+    localStorage.removeItem("userDetails")
+    navigate('/')
+  }
   return (
-    < >
+    < div 
+    style={{width:'40%'}}
+    className='user-chat-main'
+    >
     <Menu style={{ display: 'flex', alignItems: 'center',   }} >
       <div  >
       
   
-      <InputGroup alignItems={'center'} style={{ marginLeft: '5px' ,width:'80%'}}>
+      <InputGroup className='input-grp-search' alignItems={'center'} style={{ marginLeft: '5px' ,width:'70%'}}>
   <Button variant={'ghost'} onClick={onOpen}>
     <FontAwesomeIcon icon={faBars} />
   </Button>
   <InputGroup>
   <Input
-    marginLeft={'5px'}
-    placeholder='Search...'
-    mr={2}
-    value={search}
-    focusBorderColor='blue.100'
-    outline={'none'}
-    onChange={(event) => handleSearch(event.target.value)}
-    
-  />
+  marginLeft={'5px'}
+  className='input-field-chat'
+  placeholder='Search Users...'
+  mr={2}
+  value={search}
+  focusBorderColor='blue.100'
+  outline={'none'}
+  onChange={(event) => {
+    setSearch(event.target.value);
+    optimizedHandler(event.target.value); 
+   
+  }}
+/>
+
     <InputRightElement
     mr={'9px'}
-      _hover={'none'}
+     hover={'none'}
       cursor={'disabled'}
       pointerEvents={'none'}
       children={<Button
@@ -97,18 +119,23 @@ function UserChats () {
     />
   </InputGroup>
 </InputGroup><br />
-<Box w={'70%'}  > 
-{loading ? (
-  <UserLoad />
-) : (
-  searchResult.map((user) => (
-    <UserBoxModel
-      key={user._id}
-      user={user}
-      handleFunction={() => accessChat(user._id)}
-    />
-  ))
+<Box
+ w={'70%'}
+ className='box-user-chatlist'  > 
+{search.trim().length > 0 && (
+  loading ? (
+    <UserLoad />
+  ) : (
+    searchResult.map((user) => (
+      <UserBoxModel
+        key={user._id}
+        user={user}
+        handleFunction={() => accessChat(user._id)}
+      />
+    ))
+  )
 )}
+
 <ChatBoxHistory/>
 </Box>
       </div>
@@ -124,17 +151,32 @@ function UserChats () {
     <Drawer placement='left' onClose={onClose} isOpen={isOpen}>
         <DrawerOverlay />
         <DrawerContent>
-          <DrawerHeader borderBottomWidth='1px'>Basic Drawer</DrawerHeader>
-          <DrawerBody>
-            <p>Some contents...</p>
-            <p>Some contents...</p>
-            <p>Some contents...</p>
-          </DrawerBody>
+          <DrawerHeader borderBottomWidth='1px' display={'flex'} alignItems={'center'}  >
+          <Avatar
+           name={user.name}
+            src={user.picture}
+            size='lg'
+            />
+           
+            <Text ml={'4px'} pl={'18px'} >
+              {user.name}
+            </Text>
+          </DrawerHeader>
+        
+            <Text className='logout-btn' onClick={handleSignout}>
+                 
+            <FontAwesomeIcon  icon={faRightFromBracket} style={{paddingLeft:'1.7rem',paddingRight:'1rem'}} />
+            
+              Logout
+         
+            </Text>
+            <hr />
+         
         </DrawerContent>
       </Drawer>
      
 
-    </>
+    </div>
   )
 }
 

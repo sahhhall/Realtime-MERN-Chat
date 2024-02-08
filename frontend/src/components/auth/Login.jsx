@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { VStack, FormControl, Input, InputGroup, InputRightElement, Button, useToast } from '@chakra-ui/react';
+import { VStack, FormControl, Input, InputGroup, InputRightElement, Button } from '@chakra-ui/react';
 import validateField from '../../utils/validationPatterns';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import toast, { Toaster } from 'react-hot-toast';
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -13,7 +14,7 @@ const Login = () => {
   const [ loading, setLoading ] = useState(false)
   const [ validationErr , setErr ] = useState({})
   const navigate = useNavigate();
-  const toast = useToast();
+ 
   function handleChange(event) {
     setFormData((prevFormData) => ({
       ...prevFormData,
@@ -47,25 +48,18 @@ const Login = () => {
           mail: formData.mail,
           password: formData.password
         },config)
-        toast({
-          title: 'login success',
-          status: 'success',
-          isClosable: true,
-          duration: 3000,
-          position: 'top-right',
-        })
+      
         localStorage.setItem('userDetails' , JSON.stringify(data))
+        const getUsername = JSON.parse(localStorage.getItem('userDetails'))
         setLoading(false)
+        toast.success(`Welcome back ${getUsername.name}!!!`, {
+        
+           icon: '👏' ,duration: 3000
+        });
         navigate('/chat')
+        
       }catch(error){
-        toast({
-          title: 'Error occured',
-          description: error.response.data.message,
-          status: 'error',
-          isClosable: true,
-          duration: 3000,
-          position: 'top-right',
-        })
+        toast.error(`${error.response.data.message}`)
         setLoading(false)
       }
     }else{

@@ -23,13 +23,13 @@ import {
   DrawerContent,
   DrawerCloseButton,
 } from '@chakra-ui/react';
-import UserLoad from '../UserLoad';
+import UserLoad from '../ui/UserLoad';
 import { ChatState } from '../../context/ChatProvider';
 import UserBoxModel from '../UserChatLog/UserBoxModel';
 import { ChatBoxHistory } from '../UserChatLog/ChatBoxHistory';
 import debounce from '../../utils/debounce';
 import { useMediaQuery } from "@uidotdev/usehooks";
-import CreateGroupModal from './CreateGroupModal';
+import CreateGroupModal from '../ui/CreateGroupModal';
 function UserChats() {
   const [search, setSearch] = useState('');
   const [searchResult, setSearchResult] = useState([]);
@@ -128,25 +128,24 @@ function UserChats() {
             </InputGroup>
           </InputGroup><hr style={{marginTop:'6px',width:'70%'}} />
          
-          <Box w={'70%'} className='box-user-chatlist'>
-            {search.trim().length > 0 && (
-              loading ? (
-                <UserLoad />
-              ) : (
-                searchResult.map((user) => (
-                  <UserBoxModel
-                    key={user._id}
-                    user={user}
-                    handleFunction={() => accessChat(user._id)}
-                  />
-                ))
-              )
-            )}
-            
-          <hr />
-            <ChatBoxHistory />
-            {/* dev testing  */}
-          
+          <Box className="sidebar-scroll" style={{ overflowY: 'auto', height: 'calc(100vh - 100px)' }}>
+            <Box w={'70%'} className='box-user-chatlist'>
+              {search.trim().length > 0 && (
+                loading ? (
+                  <UserLoad />
+                ) : (
+                  searchResult.map((user) => (
+                    <UserBoxModel
+                      key={user._id}
+                      user={user}
+                      handleFunction={() => accessChat(user._id)}
+                    />
+                  ))
+                )
+              )}
+              <hr />
+              <ChatBoxHistory />
+            </Box>
           </Box>
         </div>
       </Menu>
@@ -167,7 +166,6 @@ function UserChats() {
           </Text>
 
           </CreateGroupModal>
-        
           <Text className='logout-btn' onClick={handleSignout}>
             <FontAwesomeIcon icon={faRightFromBracket} style={{ paddingLeft: '1.7rem', paddingRight: '1rem' }} />
             Logout

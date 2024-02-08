@@ -23,7 +23,6 @@ const  UserBoxModel = ({user,handleFunction}) => {
     >
       <Avatar
         mr={2}
-        size="sm"
         cursor="pointer"
         src={user.picture}
         

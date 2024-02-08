@@ -53,12 +53,11 @@ export const ChatBoxHistory = () => {
             >
               <Avatar
                 mr={2}
-                size="sm"
                 cursor="pointer"
                 src={!chatt.isGroupChat ? getProfileSender(user, chatt.users) : ''}
               />
               <Box>
-                <Text>
+                <Text className='text-chat-log' >
                   {!chatt.isGroupChat ? getChatEnderName(user, chatt.users) : chatt.chatName}
                 </Text>
               </Box>

@@ -110,7 +110,22 @@ color: blue;
 ::-webkit-scrollbar {
     display: none;
 }
- 
+.btn-modal {
+ border: none !important;
+ outline: none !important;
+ box-shadow: none !important;
+ color: #77C3EC !important;   
+ background: none !important;
+}
+.text-chat-log{
+
+    font-weight: 600;
+    font-family: "Open Sans", sans-serif;
+    padding-left: 3px;
+    letter-spacing: .6px;
+    color: rgb(0, 0, 0);
+
+}
 @media screen and (max-width: 888px) {
 .input-grp-search{
     width: 100% !important;

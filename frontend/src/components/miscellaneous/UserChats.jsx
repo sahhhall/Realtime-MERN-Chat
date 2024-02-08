@@ -28,15 +28,17 @@ import { ChatState } from '../../context/ChatProvider';
 import UserBoxModel from '../UserChatLog/UserBoxModel';
 import { ChatBoxHistory } from '../UserChatLog/ChatBoxHistory';
 import debounce from '../../utils/debounce';
+import { useMediaQuery } from "@uidotdev/usehooks";
+import CreateGroupModal from './CreateGroupModal';
 function UserChats() {
   const [search, setSearch] = useState('');
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loadingCht, setLoadingCht] = useState();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { user, setSelectedChat, chat, setChats } = ChatState();
+  const { user, selectedChat, setSelectedChat, chat, setChats } = ChatState();
   const navigate = useNavigate();
- 
+  const isSmallDevice = useMediaQuery("only screen and (max-width : 768px)");
 
   // this for dev testinh 
   // const chatHistory = new Array(10).fill(null);
@@ -94,8 +96,8 @@ function UserChats() {
   };
 
   return (
-    <div style={{ width: '40%' }} className='user-chat-main'>
-      <Menu style={{ display: 'flex', alignItems: 'center' }}>
+    <Box style={{ width: '40%', display: selectedChat && isSmallDevice ? 'none' : 'block' }} className='user-chat-main'>
+    <Menu style={{ display: 'flex', alignItems: 'center' }}>
         <div>
           <InputGroup className='input-grp-search' alignItems={'center'} style={{ marginLeft: '5px', width: '70%' }}>
             <Button variant={'ghost'} onClick={onOpen}>
@@ -147,12 +149,6 @@ function UserChats() {
           
           </Box>
         </div>
-
-        <div>
-          <Menu>
-            {/* Menu items */}
-          </Menu>
-        </div>
       </Menu>
 
       <Drawer placement='left' onClose={onClose} isOpen={isOpen}>
@@ -164,10 +160,14 @@ function UserChats() {
               {user.name}
             </Text>
           </DrawerHeader>
+          <CreateGroupModal>
           <Text className='logout-btn'>
             <FontAwesomeIcon icon={faUserGroup} style={{ paddingLeft: '1.7rem', paddingRight: '1rem' }} />
             New Group
           </Text>
+
+          </CreateGroupModal>
+        
           <Text className='logout-btn' onClick={handleSignout}>
             <FontAwesomeIcon icon={faRightFromBracket} style={{ paddingLeft: '1.7rem', paddingRight: '1rem' }} />
             Logout
@@ -178,7 +178,7 @@ function UserChats() {
           </DrawerFooter>
         </DrawerContent>
       </Drawer>
-    </div>
+    </Box>
   );
 }
 

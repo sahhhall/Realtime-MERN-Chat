@@ -4,3 +4,9 @@ export const getChatEnderName = (loggedUser, users) => {
     const chatEnder = users.find(user => user._id !== loggedUser._id);
     return chatEnder ? chatEnder.name : null;
   };
+
+
+  export const getProfileSender = (loggedUser, users) => {
+    const chatEnder = users.find(user => user._id !== loggedUser._id);
+    return chatEnder ? chatEnder.picture : '';
+  }

@@ -105,7 +105,7 @@ color: blue;
 
 }
 
-@media screen and (max-width: 586px) {
+@media screen and (max-width: 888px) {
 .input-grp-search{
     width: 100% !important;
 }

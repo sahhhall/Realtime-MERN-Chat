@@ -6,7 +6,7 @@ function SideDrawer() {
       <Box
       w='100%'
       height={'30px'}
-      background={'black'}
+      background={' #121212'}
       display={'flex'}
       mb={'4px'}
       >

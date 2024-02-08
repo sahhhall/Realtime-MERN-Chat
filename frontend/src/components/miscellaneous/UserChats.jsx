@@ -1,8 +1,20 @@
-import { Box, Button, Tooltip, Text, Menu, useDisclosure, Input, InputGroup, InputRightElement, InputLeftElement, Avatar } from '@chakra-ui/react';
-import React, { useCallback, useState } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBars, faCoffee, faMagnifyingGlass, faRightFromBracket } from '@fortawesome/free-solid-svg-icons'
+import React, { useCallback, useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBars, faCoffee, faMagnifyingGlass, faPenToSquare, faRightFromBracket, faUserGroup } from '@fortawesome/free-solid-svg-icons';
 import {
+  Box,
+  Button,
+  Tooltip,
+  Text,
+  Menu,
+  useDisclosure,
+  Input,
+  InputGroup,
+  InputRightElement,
+  InputLeftElement,
+  Avatar,
   Drawer,
   DrawerBody,
   DrawerFooter,
@@ -10,39 +22,38 @@ import {
   DrawerOverlay,
   DrawerContent,
   DrawerCloseButton,
-} from '@chakra-ui/react'
-import axios from 'axios';
-import UserLoad from '../UserLoad'
+} from '@chakra-ui/react';
+import UserLoad from '../UserLoad';
 import { ChatState } from '../../context/ChatProvider';
 import UserBoxModel from '../UserChatLog/UserBoxModel';
 import { ChatBoxHistory } from '../UserChatLog/ChatBoxHistory';
 import debounce from '../../utils/debounce';
-import { useNavigate } from 'react-router-dom';
-
-function UserChats () {
-  const [ search, setSearch ] = useState("");
-  const [ searchResult, setSearchResult ] = useState([])
-  const [ loading, setLoading ] = useState(false)
-  const [ loadinCht , setLoadingCht ] = useState()
-  const { isOpen, onOpen, onClose } = useDisclosure()
-  const { user, setSElectedChat } = ChatState();
+function UserChats() {
+  const [search, setSearch] = useState('');
+  const [searchResult, setSearchResult] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [loadingCht, setLoadingCht] = useState();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { user, setSelectedChat, chat, setChats } = ChatState();
   const navigate = useNavigate();
+ 
+
+  // this for dev testinh 
+  // const chatHistory = new Array(10).fill(null);
+
   const handleSearch = async (value) => {
-    setSearch(value); 
+    setSearch(value);
     if (!value) {
-      
       return;
     }
     try {
-      console.log(1111);
- 
       setLoading(true);
       const config = {
         headers: {
           Authorization: `Bearer ${user.token}`,
         },
       };
-  
+
       const { data } = await axios.get(`http://localhost:4001/api/user?search=${value}`, config);
       setLoading(false);
       setSearchResult(data);
@@ -51,133 +62,124 @@ function UserChats () {
     }
   };
 // usecallback providev us the memozized callback 
-  const optimizedHandler = useCallback(debounce(handleSearch),[])
-  const accessChat = async() => {
-    setSearch(""); 
-    try{
-      setLoadingCht(true)
+  const optimizedHandler = useCallback(debounce(handleSearch), []);
+
+  const accessChat = async (userId) => {
+    setSearch('');
+    try {
+      setLoadingCht(true);
       const config = {
-        headers : {
+        headers: {
           Authorization: `Bearer ${user.token}`,
-          "Content-type" : "application/json"
-        }
-      }
-      
-      const { data } = await axios.post(`http://localhost:4001/api/chat`,{
+          'Content-type': 'application/json',
+        },
+      };
+
+      const { data } = await axios.post(`http://localhost:4001/api/chat`, {
         userId
-      },config)
-      setSElectedChat(data);
-      setLoadingCht(false)
-    }catch(error){
+      }, config);
+      // here appending chat 
+      console.log(data,8);
+      if(!chat.find((chats) => chats._id === data._id) ) setChats([data,...chat]);
+      setSelectedChat(data);
+      setLoadingCht(false);
+    } catch (error) {
       console.log(error.message);
     }
-  }
+  };
 
   const handleSignout = () => {
-    localStorage.removeItem("userDetails")
-    navigate('/')
-  }
+    localStorage.removeItem('userDetails');
+    navigate('/');
+  };
+
   return (
-    < div 
-    style={{width:'40%'}}
-    className='user-chat-main'
-    >
-    <Menu style={{ display: 'flex', alignItems: 'center',   }} >
-      <div  >
-      
-  
-      <InputGroup className='input-grp-search' alignItems={'center'} style={{ marginLeft: '5px' ,width:'70%'}}>
-  <Button variant={'ghost'} onClick={onOpen}>
-    <FontAwesomeIcon icon={faBars} />
-  </Button>
-  <InputGroup>
-  <Input
-  marginLeft={'5px'}
-  className='input-field-chat'
-  placeholder='Search Users...'
-  mr={2}
-  value={search}
-  focusBorderColor='blue.100'
-  outline={'none'}
-  onChange={(event) => {
-    setSearch(event.target.value);
-    optimizedHandler(event.target.value); 
-   
-  }}
-/>
+    <div style={{ width: '40%' }} className='user-chat-main'>
+      <Menu style={{ display: 'flex', alignItems: 'center' }}>
+        <div>
+          <InputGroup className='input-grp-search' alignItems={'center'} style={{ marginLeft: '5px', width: '70%' }}>
+            <Button variant={'ghost'} onClick={onOpen}>
+              <FontAwesomeIcon icon={faBars} />
+            </Button>
+            <InputGroup>
+              <Input
+                marginLeft={'5px'}
+                className='input-field-chat'
+                placeholder='Search Users...'
+                mr={2}
+                value={search}
+                focusBorderColor='blue.100'
+                outline={'none'}
+                onChange={(event) => {
+                  setSearch(event.target.value);
+                  optimizedHandler(event.target.value);
+                }}
+              />
 
-    <InputRightElement
-    mr={'9px'}
-     hover={'none'}
-      cursor={'disabled'}
-      pointerEvents={'none'}
-      children={<Button
-        background={'transparent'}
-      >
-      <FontAwesomeIcon icon={faMagnifyingGlass} />
-    </Button>}
-    />
-  </InputGroup>
-</InputGroup><br />
-<Box
- w={'70%'}
- className='box-user-chatlist'  > 
-{search.trim().length > 0 && (
-  loading ? (
-    <UserLoad />
-  ) : (
-    searchResult.map((user) => (
-      <UserBoxModel
-        key={user._id}
-        user={user}
-        handleFunction={() => accessChat(user._id)}
-      />
-    ))
-  )
-)}
+              <InputRightElement
+                mr={'9px'}
+                hover={'none'}
+                cursor={'disabled'}
+                pointerEvents={'none'}
+                children={<Button background={'transparent'}><FontAwesomeIcon icon={faMagnifyingGlass} /></Button>}
+              />
+            </InputGroup>
+          </InputGroup><hr style={{marginTop:'6px',width:'70%'}} />
+         
+          <Box w={'70%'} className='box-user-chatlist'>
+            {search.trim().length > 0 && (
+              loading ? (
+                <UserLoad />
+              ) : (
+                searchResult.map((user) => (
+                  <UserBoxModel
+                    key={user._id}
+                    user={user}
+                    handleFunction={() => accessChat(user._id)}
+                  />
+                ))
+              )
+            )}
+            
+          <hr />
+            <ChatBoxHistory />
+            {/* dev testing  */}
+          
+          </Box>
+        </div>
 
-<ChatBoxHistory/>
-</Box>
-      </div>
+        <div>
+          <Menu>
+            {/* Menu items */}
+          </Menu>
+        </div>
+      </Menu>
 
-
-  <div>
-    <Menu>
-      {/* Menu items */}
-    </Menu>
-  </div>
-</Menu>
-
-    <Drawer placement='left' onClose={onClose} isOpen={isOpen}>
+      <Drawer placement='left' onClose={onClose} isOpen={isOpen}>
         <DrawerOverlay />
-        <DrawerContent>
-          <DrawerHeader borderBottomWidth='1px' display={'flex'} alignItems={'center'}  >
-          <Avatar
-           name={user.name}
-            src={user.picture}
-            size='lg'
-            />
-           
-            <Text ml={'4px'} pl={'18px'} >
+        <DrawerContent background={' #121212;'}>
+          <DrawerHeader borderBottomWidth='.1px' display={'flex'} alignItems={'center'}>
+            <Avatar name={user.name} src={user.picture} size='lg' />
+            <Text ml={'4px'} pl={'18px'} color={'white'}>
               {user.name}
             </Text>
           </DrawerHeader>
-        
-            <Text className='logout-btn' onClick={handleSignout}>
-                 
-            <FontAwesomeIcon  icon={faRightFromBracket} style={{paddingLeft:'1.7rem',paddingRight:'1rem'}} />
-            
-              Logout
-         
-            </Text>
-            <hr />
-         
+          <Text className='logout-btn'>
+            <FontAwesomeIcon icon={faUserGroup} style={{ paddingLeft: '1.7rem', paddingRight: '1rem' }} />
+            New Group
+          </Text>
+          <Text className='logout-btn' onClick={handleSignout}>
+            <FontAwesomeIcon icon={faRightFromBracket} style={{ paddingLeft: '1.7rem', paddingRight: '1rem' }} />
+            Logout
+          </Text>
+          <DrawerFooter display={'flex'} justifyContent={'flex-start'} flexDirection={'column'} mt="auto">
+            <Text className='drawer-footer'>SAChat Desktop</Text>
+            <Text className='drawer-footer'> Version 1.0.1 X64</Text>
+          </DrawerFooter>
         </DrawerContent>
       </Drawer>
-     
-
     </div>
-  )
+  );
 }
 
-export default UserChats
+export default UserChats;

@@ -4,6 +4,7 @@
 .App{
     min-height: 100vh;
     display: flex;
+   
     
 }
 .text-sign {
@@ -72,7 +73,13 @@ color: blue;
     color: red;
     font-size: .6244em; 
 }
-
+.drawer-footer{
+    font-size: .7rem;
+    letter-spacing: 1px;
+    color: #aca7a7 ;
+    font-weight: 100;
+    margin-left: -11rem;
+}
 .logout-btn{
     display: flex;
     align-items: center;
@@ -80,13 +87,22 @@ color: blue;
     padding: 1rem;
     font-family: "Open Sans", sans-serif;
     font-size:small;
-    font-weight: 600;
-    letter-spacing: .01rem;
+    font-weight: 500;
+    letter-spacing: .02rem;
     cursor: pointer;
-
+    color: white;
 }
 .logout-btn:hover{
-    background-color: lightblue;
+    background-color: #1F1B24;
+}
+.chat-heading{
+    font-size: large;
+    font-weight: bolder;
+    font-family: "Open Sans", sans-serif;
+    padding-left: 1em;
+    letter-spacing: .8px;
+    color: rgb(0, 0, 0);
+
 }
 
 @media screen and (max-width: 586px) {

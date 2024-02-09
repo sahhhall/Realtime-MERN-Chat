@@ -13,6 +13,7 @@ const  ChatArea = ({fetchAgain, setFetchAgain}) => {
         flexDir={'column'}
         width={'100%'}
         display={'flex'}
+        borderLeft={'4px outset #f3f3f3'}
         >
           
           <SingleChat   fetchAgain={fetchAgain} setFetchAgain={setFetchAgain}  />

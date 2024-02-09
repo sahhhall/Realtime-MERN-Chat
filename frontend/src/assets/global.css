@@ -128,7 +128,10 @@ color: blue;
 }
 .singlechat-text-ad{
     color: gray;
-    
+
+}
+.chats-history-box:hover{
+background: #f3f3f3;
 }
 @media screen and (min-width: 902px){
     .chat-area{

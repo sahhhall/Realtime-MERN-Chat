@@ -99,7 +99,7 @@ function UserChats({ fetchAgain }) {
     <Box style={{ width: '40%', display: selectedChat && isSmallDevice ? 'none' : 'block' }} className='user-chat-main'>
     <Menu style={{ display: 'flex', alignItems: 'center' }}>
         <div>
-          <InputGroup className='input-grp-search' alignItems={'center'} style={{ marginLeft: '5px', width: '70%' }}>
+          <InputGroup className='input-grp-search' alignItems={'center'} style={{ marginLeft: '5px', width: '100%' }}>
             <Button variant={'ghost'} onClick={onOpen}>
               <FontAwesomeIcon icon={faBars} />
             </Button>
@@ -126,10 +126,10 @@ function UserChats({ fetchAgain }) {
                 children={<Button background={'transparent'}><FontAwesomeIcon icon={faMagnifyingGlass} /></Button>}
               />
             </InputGroup>
-          </InputGroup><hr style={{marginTop:'6px',width:'70%'}} />
+          </InputGroup><hr style={{marginTop:'6px',width:'100%'}} />
          
           <Box className="sidebar-scroll" style={{ overflowY: 'auto', height: 'calc(100vh - 100px)' }}>
-            <Box w={'70%'} className='box-user-chatlist'>
+            <Box w={'100%'} className='box-user-chatlist'>
               {search.trim().length > 0 && (
                 loading ? (
                   <UserLoad />

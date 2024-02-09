@@ -7,7 +7,7 @@ import { getChatEnderName, getProfileSender } from '../../config/chatHelpers';
 export const ChatBoxHistory = ({fetchAgain}) => {
   const [logged, setLogged] = useState(false);
   const { user, selectedChat, chat, setChats, setSelectedChat } = ChatState();
-
+console.log("chatlist",chat.length);
   const fetchChats = async () => {
     try {
       const config = {
@@ -45,11 +45,12 @@ export const ChatBoxHistory = ({fetchAgain}) => {
               display={'flex'}
               onClick={() => handleClick(chatt)}
               cursor="pointer"
-              bg={selectedChat === chatt ? "#38B2AC" : "#0000"}
+              bg={selectedChat === chatt ? "#E0E0E0" : "#0000"}
               color={selectedChat === chatt ? "white" : "black"}
               px={3}
               py={2}
               borderRadius="lg"
+             className='chats-history-box'
             >
               <Avatar
                 mr={2}

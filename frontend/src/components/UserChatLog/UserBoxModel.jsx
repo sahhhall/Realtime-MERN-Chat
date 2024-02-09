@@ -12,8 +12,8 @@ const  UserBoxModel = ({user,handleFunction}) => {
       ml={'6px'}
     pt={'8px'}p={'8px'}
       _hover={{
-        background: "#38B2AC",
-        color: "white",
+        background: "#E0E0E0",
+        
       }}
       w="100%"
       d="flex"

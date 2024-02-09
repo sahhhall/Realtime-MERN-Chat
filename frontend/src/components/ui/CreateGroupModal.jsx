@@ -72,7 +72,7 @@ const CreateGroupModal = ({ children }) => {
             toast.error(`failed to create group chat ${error.response.data.message}`)
           }),
           {
-            loading: 'Saving...',
+            loading: 'Creating...',
             success: <b>Group created!</b>,
             error: <b>Not Created!try again.</b>,
           }

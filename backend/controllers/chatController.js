@@ -54,8 +54,7 @@ const getChats = asyncHandler(async (req,res) => {
                 path: "latestmessage.chat",
                 select: "name email picture"
             })
-            res.status(200)
-            .send(result)
+            res.status(200).json(result)
          })
     }catch(err){
         res.status(400)
@@ -71,7 +70,7 @@ const createGrpChat = asyncHandler(async(req,res) => {
     var grpName = req.body.name;
     var users = JSON.parse(usersArr)
     
-    if( users.length < 2     ) return res.status(400).send("More than 2 users need")
+    if( users.length < 1     ) return res.status(400).send("More than 2 users need")
 
     // now  i only get all rest users expect creator so push him 
     users.push(req.user)
@@ -87,8 +86,7 @@ const createGrpChat = asyncHandler(async(req,res) => {
             const fullGrpCht = await Chat.findOne({_id: grpChat._id}).populate("users","-password")
             .populate("groupAdmin","-password")
             
-            res.status(200).
-            json(fullGrpCht)
+            res.status(200).json(fullGrpCht)
     }catch(err){
         res.send(400)
         throw  new Error(err.message)

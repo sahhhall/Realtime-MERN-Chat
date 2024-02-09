@@ -44,10 +44,39 @@ const CreateGroupModal = ({ children }) => {
   };
 
   // validation and modal switching 
-  const handleNextClick = () => {
-    
-    setIsOpenSecondModal(true);
- 
+  const handleSubmit = async() => {
+    console.log("hhh");
+    if(addedUsers.length < 1 ){
+      toast.error(`please add atleast one user`)
+      return
+    }
+        const config = {
+          headers:{
+            Authorization: `Bearer ${user.token}`,
+          }
+        };
+        toast.promise(
+          axios.post('http://localhost:4001/api/chat/group', {
+            users: JSON.stringify(addedUsers.map((user) => user._id)),
+            name: inputValues.groupName
+          }, config)
+          .then(response => {
+            const { data } = response;
+            // add into chat list && need group in the first place so put on first 
+            setChats([data, ...chat]);
+            onClose();
+            setIsOpenSecondModal(false);
+           
+          })
+          .catch(error => {
+            toast.error(`failed to create group chat ${error.response.data.message}`)
+          }),
+          {
+            loading: 'Saving...',
+            success: <b>Group created!</b>,
+            error: <b>Not Created!try again.</b>,
+          }
+        );
   };
 
   const fetchUsers = async () => {
@@ -109,7 +138,7 @@ const CreateGroupModal = ({ children }) => {
             <Button className="btn-modal" mr={3} onClick={onClose}>
               Cancel
             </Button>
-            {inputValues.groupName.trim().length>= 3 && inputValues.groupName.trim().length <= 10 ?<Button onClick={handleNextClick} className="btn-modal">
+            {inputValues.groupName.trim().length>= 3 && inputValues.groupName.trim().length <= 10 ?<Button onClick={() => setIsOpenSecondModal(true)} className="btn-modal">
               Next
             </Button>: <Button color={'gray'} cursor={'not-allowed'} style={{
                border: 'none' ,
@@ -182,7 +211,7 @@ const CreateGroupModal = ({ children }) => {
             <Button mr={3} className="btn-modal" onClick={() => { setIsOpenSecondModal(false); onOpen(); }}>
               Cancel
             </Button>
-            <Button onClick={handleNextClick} className="btn-modal">
+            <Button onClick={handleSubmit} className="btn-modal">
               Create
             </Button>
           </ModalFooter>

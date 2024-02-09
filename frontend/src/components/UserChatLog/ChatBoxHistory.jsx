@@ -4,7 +4,7 @@ import axios from 'axios';
 import { Avatar, Box, Spinner, Stack, Text } from '@chakra-ui/react';
 import { getChatEnderName, getProfileSender } from '../../config/chatHelpers';
 
-export const ChatBoxHistory = () => {
+export const ChatBoxHistory = ({fetchAgain}) => {
   const [logged, setLogged] = useState(false);
   const { user, selectedChat, chat, setChats, setSelectedChat } = ChatState();
 
@@ -25,7 +25,7 @@ export const ChatBoxHistory = () => {
   useEffect(() => {
     setLogged(JSON.parse(localStorage.getItem('userDetails')));
     fetchChats();
-  }, []);
+  }, [fetchAgain]);
 
   const handleClick = (chatt) => {
     selectedChat === chatt ? setSelectedChat(null) : setSelectedChat(chatt);

@@ -30,7 +30,7 @@ import { ChatBoxHistory } from '../UserChatLog/ChatBoxHistory';
 import debounce from '../../utils/debounce';
 import { useMediaQuery } from "@uidotdev/usehooks";
 import CreateGroupModal from '../ui/CreateGroupModal';
-function UserChats() {
+function UserChats({ fetchAgain }) {
   const [search, setSearch] = useState('');
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -38,7 +38,7 @@ function UserChats() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { user, selectedChat, setSelectedChat, chat, setChats } = ChatState();
   const navigate = useNavigate();
-  const isSmallDevice = useMediaQuery("only screen and (max-width : 768px)");
+  const isSmallDevice = useMediaQuery("only screen and (max-width : 902px)");
 
   // this for dev testinh 
   // const chatHistory = new Array(10).fill(null);
@@ -144,7 +144,7 @@ function UserChats() {
                 )
               )}
               <hr />
-              <ChatBoxHistory />
+              <ChatBoxHistory fetchAgain={fetchAgain} />
             </Box>
           </Box>
         </div>

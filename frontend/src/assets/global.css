@@ -126,6 +126,16 @@ color: blue;
     color: rgb(0, 0, 0);
 
 }
+.singlechat-text-ad{
+    color: gray;
+    
+}
+@media screen and (min-width: 902px){
+    .chat-area{
+        display: block !important;
+    }
+}
+
 @media screen and (max-width: 888px) {
 .input-grp-search{
     width: 100% !important;
@@ -133,9 +143,7 @@ color: blue;
 .box-user-chatlist{
     width: 100% !important;
 }
-.chat-area{
-    display: none;
-}
+
 .user-chat-main{
 width: 100% !important;
 }

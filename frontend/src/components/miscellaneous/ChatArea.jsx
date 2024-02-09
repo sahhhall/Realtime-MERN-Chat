@@ -1,10 +1,22 @@
+import { Box } from '@chakra-ui/react';
+import { useMediaQuery } from '@uidotdev/usehooks';
 import React from 'react'
+import { ChatState } from '../../context/ChatProvider';
+import SingleChat from '../SingleChat';
 
-const  ChatArea = () => {
+const  ChatArea = ({fetchAgain, setFetchAgain}) => {
+    const isSmallDevice = useMediaQuery("only screen and (max-width : 768px)");
+    const { user, selectedChat, setSelectedChat, chat, setChats } = ChatState();
     return(
-        <div className='chat-area'>
-            ChatArea
-        </div>
+        <Box style={{ display: selectedChat && isSmallDevice?'block':'none'}} className='chat-area'
+        alignItems={'center'}
+        flexDir={'column'}
+        width={'100%'}
+        display={'flex'}
+        >
+          
+          <SingleChat   fetchAgain={fetchAgain} setFetchAgain={setFetchAgain}  />
+        </Box>
     )
 }
 

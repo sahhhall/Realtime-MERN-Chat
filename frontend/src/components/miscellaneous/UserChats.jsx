@@ -92,6 +92,9 @@ function UserChats({ fetchAgain }) {
 
   const handleSignout = () => {
     localStorage.removeItem('userDetails');
+    // Clear User Data on Logout
+    setSelectedChat(null); // Clear selected chat
+    setChats([]);
     navigate('/');
   };
 

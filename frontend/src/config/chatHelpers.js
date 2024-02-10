@@ -49,5 +49,5 @@ console.log(fullChats);
    const commoo=totalGroups.filter(group =>
     group.users.includes(senderId) && group.users.includes(userId)
   );
-  return totalGroups.length;
+  return commoo.length;
 };

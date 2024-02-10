@@ -4,9 +4,12 @@ import { faCircleInfo, faUser } from '@fortawesome/free-solid-svg-icons';
 import { Avatar, Box, Button, MenuItem, MenuList, Modal, ModalBody, ModalCloseButton, Image, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, useDisclosure } from '@chakra-ui/react';
 import { getCommonGroupCount, getUserFullDetails } from '../../config/chatHelpers';
 import { ChatState } from '../../context/ChatProvider';
+import UserDetailsModal from './UserDetailsModal';
 
 const ProfileViewModal = ({ user, selectedChat }) => {
+  // this for storing user all data 
   const [userDetails, setUserDetails] = useState();
+ 
   const { chat } = ChatState();
   useEffect(() => {
     const data = getUserFullDetails(user, selectedChat.users);
@@ -29,18 +32,11 @@ const ProfileViewModal = ({ user, selectedChat }) => {
           />
           &nbsp; &nbsp;View Profile
         </MenuItem>
-        <MenuItem onClick={onOpen}>
-          <FontAwesomeIcon
-            cursor="pointer"
-          
-            icon={faCircleInfo}
-            
-          />
-          &nbsp; &nbsp;More details
-        </MenuItem>
+        {/* here need condition because we need render only after defined useDetails  */}
+        {userDetails && <UserDetailsModal userDetails={userDetails} selectedChat={selectedChat} user={user} />}
       </MenuList>
 
-      <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
+      <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose} isCentered>
         
         <ModalOverlay   bg='blackAlpha.300'
       backdropFilter='blur(10px) hue-rotate(90deg)'/>
@@ -54,7 +50,7 @@ const ProfileViewModal = ({ user, selectedChat }) => {
     cursor="pointer"
     src={userDetails?.picture || ''}
     style={{
-      objectFit:'cover',
+      objectFit:'fit',
       maxHeight: '100%',
       maxWidth: '100%'
     }}
@@ -70,6 +66,7 @@ const ProfileViewModal = ({ user, selectedChat }) => {
           
         </ModalContent>
       </Modal>
+
     </>
   );
 };

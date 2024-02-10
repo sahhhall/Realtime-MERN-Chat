@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { getChatEnderName, getProfileSender } from '../../../config/chatHelpers';
 import { ChatState } from '../../../context/ChatProvider';
 import ProfileViewModal from '../../miscellaneous/ProfileViewModal';
+import UpdateGroupModal from '../../miscellaneous/UpdateGroupModal';
 
 const SingleChatHead = ({ selectedChat, setSelectedChat }) => {
   const isSmallDevice = useMediaQuery("only screen and (max-width: 768px)");
@@ -87,8 +88,12 @@ const SingleChatHead = ({ selectedChat, setSelectedChat }) => {
       icon={faEllipsisVertical}
     />
   </MenuButton>
- 
-      <ProfileViewModal selectedChat={selectedChat} user={user} />
+            {selectedChat.isGroupChat ? (<>
+            <UpdateGroupModal />
+            </>):(
+               <ProfileViewModal selectedChat={selectedChat} user={user} />
+            )}
+     
    
 </Menu>
 

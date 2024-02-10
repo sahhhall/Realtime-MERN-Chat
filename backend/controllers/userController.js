@@ -20,6 +20,7 @@ const registerUser = asyncHandler(async (req,res) => {
         picture: picture
     })
     if (user) {
+        // for frontend saving 
         res.status(201).json({
             _id: user._id,
             name: user.name,

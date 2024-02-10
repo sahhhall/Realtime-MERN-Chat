@@ -39,7 +39,7 @@ const SingleChatHead = ({ selectedChat, setSelectedChat }) => {
              
               src={getProfileSender(user, selectedChat.users)}
             />
-            <Text mt={'1'} paddingLeft={'7px'}  fontWeight={'700'} letterSpacing={'.41px'} fontSize={'1.6rem'} fontFamily={'Open Sans'}>{getChatEnderName(user, selectedChat.users)}</Text>
+            <Text mt={'1'} paddingLeft={'7px'}  fontWeight={'700'} letterSpacing={'.41px'} fontSize={'1.1rem'} fontFamily={'Open Sans'}>{getChatEnderName(user, selectedChat.users)}</Text>
           </Box>
         ):(
             <Box display="flex"  ml={3}>

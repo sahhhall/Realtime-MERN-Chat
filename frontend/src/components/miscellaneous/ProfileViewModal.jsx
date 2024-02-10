@@ -50,7 +50,7 @@ const ProfileViewModal = ({ user, selectedChat }) => {
     cursor="pointer"
     src={userDetails?.picture || ''}
     style={{
-      objectFit:'fit',
+      objectFit:'fill',
       maxHeight: '100%',
       maxWidth: '100%'
     }}

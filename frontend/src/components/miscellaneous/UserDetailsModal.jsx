@@ -1,11 +1,12 @@
-import { Avatar, Box, MenuItem, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, Text } from '@chakra-ui/react'
-import { faCircle, faCircleInfo, faEnvelope, faUserGroup } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React, { useState } from 'react'
-import { getCommonGroupCount } from '../../config/chatHelpers'
-import { ChatState } from '../../context/ChatProvider'
+import React, { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCalendar, faCircleInfo, faEnvelope, faUserGroup } from '@fortawesome/free-solid-svg-icons';
+import { Avatar, Box, MenuItem, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, Text } from '@chakra-ui/react';
+import { getCommonGroupCount, getCreatedAt } from '../../config/chatHelpers';
+import { ChatState } from '../../context/ChatProvider';
 
 const UserDetailsModal = ({ userDetails, selectedChat, user }) => {
+    // userDetails comes from ProfileViewModal 
     const [userDetailModal, setUserDetailModal] = useState(false);
     const { chat } = ChatState();
 
@@ -24,39 +25,49 @@ const UserDetailsModal = ({ userDetails, selectedChat, user }) => {
                 onClose={() => setUserDetailModal(false)}
                 isCentered
             >
-                <ModalOverlay bg='blackAlpha.300'
-      backdropFilter='blur(10px) hue-rotate(90deg)'/>
-                <ModalContent bg={'hsl(220, 70%, 30%)'}>
-                    <ModalHeader color={'white'} > User details</ModalHeader>
-                    <ModalCloseButton color={'white'}  />
+                <ModalOverlay />
+                <ModalContent >
+                    <ModalHeader display={'flex'} borderBottom={'1px outset #f3f3f3'} justifyContent={'center'} > User details</ModalHeader>
+                    <ModalCloseButton />
                     <ModalBody pb={6}>
-                    <Box display="flex"  borderTop={'.5px outset gray'} alignItems="center" pt={'22px'} pb={'23px'} borderBottom={'1px outset gray'}>
-  
-    <Avatar size="md" name="User" src={userDetails.picture} />
+                        <Box mt={7} display="flex" flexDirection={'column'}  justifyContent={'center'}  alignItems="center"  >
+                            <Avatar  size={'2xl'} name="User" src={userDetails.picture} />
+                            <Text fontWeight={'800'} mt={'3'} letterSpacing={'.5px'} >
+                                {userDetails.name}   
+                            </Text>
+                            <Text color={'gray'} textAlign="center" alignItems="center">
+                                To help keep our community authentic, we’re showing <br />
+                                information about accounts on Instagram.{" "}
+                            </Text>
+                            <Text color={'white'} ml={2}>{userDetails.name}</Text>
+                        </Box>
 
-    <Text color={'white'} ml={2}>{userDetails.name}</Text>
-</Box>
-
-                        <Box pt={'23px'} display="flex" alignItems="center">
+                        <Box pt={'23px'} flexDirection={'column'} display="flex" alignItems="center">
                             <FontAwesomeIcon
                                 cursor="pointer"
                                 icon={faUserGroup}
                                 size='1x'
-                                color={'white'} 
                             />
-                            <Text color={'white'}  paddingLeft={'6px'} mt={'1'} ml={2} >
+                            <Text  mt={'1'} ml={2} >
                                 {getCommonGroupCount(user, selectedChat.users, chat)} Groups in common
                             </Text>
+                            <Box display={'flex'} alignItems={'center'} justifyContent={'center'}>
+                                <FontAwesomeIcon color='black'  icon={faCalendar} />
+                                <Text mt={'1'} ml={2} fontSize={'small'}>
+                                    Date joined {getCreatedAt(user, selectedChat.users)}
+                                </Text>
+                            </Box>
                         </Box>
+
                         <Box display="flex" alignItems="center">
-                        <FontAwesomeIcon
+                            <FontAwesomeIcon
                                 cursor="pointer"
                                 icon={faEnvelope}
                                 size='1x'
                                 color={'white'} 
                             />
                             <Text color={'white'}  paddingLeft={'6px'} mt={'1'} ml={2} >
-                               {userDetails.email}
+                                {userDetails.email}
                             </Text>
                         </Box>
                     </ModalBody>

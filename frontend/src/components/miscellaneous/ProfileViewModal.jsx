@@ -6,7 +6,7 @@ import { getCommonGroupCount, getUserFullDetails } from '../../config/chatHelper
 import { ChatState } from '../../context/ChatProvider';
 import UserDetailsModal from './UserDetailsModal';
 
-const ProfileViewModal = ({ user, selectedChat }) => {
+const ProfileViewModal = ({ user, selectedChat  }) => {
   // this for storing user all data 
   const [userDetails, setUserDetails] = useState();
  
@@ -41,7 +41,7 @@ const ProfileViewModal = ({ user, selectedChat }) => {
         <ModalOverlay   bg='blackAlpha.300'
       backdropFilter='blur(10px) hue-rotate(90deg)'/>
         <ModalContent overflowX={'auto'}>
-          <ModalHeader > {userDetails ? userDetails.name : 'Unknown User'}  Profile</ModalHeader>
+         
           <ModalCloseButton />
           
           <Box display="flex" >
@@ -50,9 +50,8 @@ const ProfileViewModal = ({ user, selectedChat }) => {
     cursor="pointer"
     src={userDetails?.picture || ''}
     style={{
-      objectFit:'fill',
-      maxHeight: '100%',
-      maxWidth: '100%'
+      objectFit:'cover',
+      width:'100%'
     }}
   />
   {/* <Text mt={'1'} fontWeight={'500'} fontFamily={'Open Sans'}>

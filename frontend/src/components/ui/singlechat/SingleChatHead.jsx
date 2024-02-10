@@ -8,7 +8,7 @@ import { ChatState } from '../../../context/ChatProvider';
 import ProfileViewModal from '../../miscellaneous/ProfileViewModal';
 import UpdateGroupModal from '../../miscellaneous/UpdateGroupModal';
 
-const SingleChatHead = ({ selectedChat, setSelectedChat }) => {
+const SingleChatHead = ({ selectedChat, setSelectedChat  }) => {
   const isSmallDevice = useMediaQuery("only screen and (max-width: 768px)");
   const { user } = ChatState();
 

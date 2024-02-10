@@ -1,14 +1,12 @@
+const emailPattern = /\S+@\S+\.\S+/;
+const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/;
 
-
- const emailPattern = /\S+@\S+\.\S+/;
- const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/;
-
- const validationPatterns = {
+const validationPatterns = {
     mail: emailPattern,
-    password: passwordPattern,
-  };
+    password: passwordPattern
+};
 const validateField = (field, value) => {
     return validationPatterns[field].test(value);
-  };
+};
 
- export default validateField
+export default validateField

@@ -1,4 +1,9 @@
-
+/**
+ * Uploads a file to Cloudinary.
+ * @param {File} file - The file to upload.
+ * @returns {Promise<Object>} - A promise that resolves to the JSON response from the Cloudinary API.
+ * @throws {Error} - If the image upload fails.
+ */
  const fileUploader = async (file) => {
      // form data obj form appending files and additional data(foor cloudinary) 
     const formData = new FormData();

@@ -44,9 +44,7 @@ export const getCommonGroupCount = (loggedUser, users, fullChats) => {
     if (! oppositeUserDetails) {
         return 0;
     }
-    console.log(fullChats);
     const totalGroups = fullChats.filter(chat => chat.isGroupChat)
-    console.log(totalGroups);
     const commoo = totalGroups.filter(group => group.users.includes(senderId) && group.users.includes(userId));
     return commoo.length;
 };
@@ -68,3 +66,22 @@ export const getCreatedAt = (loggedUser, users) => {
     return formatedDate(date)
   
 }
+
+
+export const isNotLoggedUser = ( message, i, userId) => {
+    return (
+        message.sender._id !== userId
+    )
+
+  };
+  
+
+  
+
+//   export const isLastMessage = (messages, i, userId) => {
+//     return (
+//       i === messages.length - 1 &&
+//       messages[messages.length - 1].sender._id !== userId &&
+//       messages[messages.length - 1].sender._id
+//     );
+//   };

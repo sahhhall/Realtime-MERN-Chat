@@ -7,7 +7,7 @@ import { getChatEnderName, getProfileSender } from '../../config/chatHelpers';
 export const ChatBoxHistory = ({fetchAgain}) => {
   const [logged, setLogged] = useState(false);
   const { user, selectedChat, chat, setChats, setSelectedChat } = ChatState();
-console.log("chatlist",chat.length);
+
   const fetchChats = async () => {
     try {
       const config = {

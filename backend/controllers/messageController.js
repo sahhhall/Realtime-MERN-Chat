@@ -6,6 +6,7 @@ const Chat = require('../models/chatModel');
 
 
 const sendMessage = asyncHandler(async (req,res) => {
+    console.log("nothing too worry am here",req.body.content);
     const { content, chatId } = req.body;
     const loggedUser = req.user._id;
     if ( !content || !chatId ) {
@@ -40,9 +41,12 @@ const sendMessage = asyncHandler(async (req,res) => {
 
 const fullMessages = asyncHandler(async ( req, res ) => {
     try{
+        console.log("am here");
         const reqChatId = req.params.chatId
-        const messages =await Message.findById(reqChatId).populate("sender","name picture email").populate("chat");
-
+        const messages =await Message.find({chat:reqChatId}).populate("sender","name picture email")
+        .populate("chat");
+        console.log(messages);
+        console.log(reqChatId);
         res.status(200).json(messages);
     }catch(error){
         console.error("Error sending message:", error);

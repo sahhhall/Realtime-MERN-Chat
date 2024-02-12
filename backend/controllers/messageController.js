@@ -45,8 +45,6 @@ const fullMessages = asyncHandler(async ( req, res ) => {
         const reqChatId = req.params.chatId
         const messages =await Message.find({chat:reqChatId}).populate("sender","name picture email")
         .populate("chat");
-        console.log(messages);
-        console.log(reqChatId);
         res.status(200).json(messages);
     }catch(error){
         console.error("Error sending message:", error);
@@ -54,7 +52,26 @@ const fullMessages = asyncHandler(async ( req, res ) => {
     }
 })
 
+const fetchMessages = asyncHandler(async(req,res) => {
+    try{
+            const page = req.query.page ? parseInt( req.query.page ) : 1;
+            console.log(page);
+            const reqChatId = req.params.chatId;
+            const pageSize = 10;
+            const messages =await Message.find({chat:reqChatId}).populate("sender","name picture email")
+            .populate("chat")
+            .sort({ createdAt: -1 })
+            .skip( (page - 1) * pageSize)
+            .limit( pageSize )
+            res.status(200).json(messages)
+    }catch(error){
+        console.log("error fetching message",error);
+        res.status(400).json( { error: "failed to fetch datta"} )
+    }
+})
+
 module.exports = {
     sendMessage,
-    fullMessages
+    fullMessages,
+    fetchMessages
 }

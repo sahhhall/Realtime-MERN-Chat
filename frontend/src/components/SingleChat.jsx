@@ -6,15 +6,18 @@ import SingleChatWelcome from './ui/singlechat/SingleChatWelcome'
 import { Box, FormControl, Input, Spinner } from '@chakra-ui/react'
 import axios from 'axios'
 import ScrollableFeed from './ui/singlechat/ScrollableChatFeed'
+import io from 'socket.io-client'
 import ScrollableChatFeed from './ui/singlechat/ScrollableChatFeed'
-
+const ENDPOINT= "http://localhost:4001";
+var socket, selectedChatCompare;
 const SingleChat = ({fetchAgain, setFetchAgain}) => {
     const { selectedChat, setSelectedChat ,user   } = ChatState()
     const [messages, setMessages] = useState([]);
     const [loading, setloading] = useState(false)
     const [newMessage, setNewMessage ] = useState();
+    const [socketConnected, setSocketConnected] = useState(false)
 
-
+    
     const fetchMessages = async() => {
       if(!selectedChat)return
       try{
@@ -28,14 +31,39 @@ const SingleChat = ({fetchAgain, setFetchAgain}) => {
        console.log("msgs",data);
         setMessages(data);
         setloading(false)
+        socket.emit("join chat", selectedChat._id)
       }catch(error){
         console.log(error.data.message);
       }
     }
+    useEffect(() => {
+      socket = io(ENDPOINT)
+      socket.emit("setup",user)
+      socket.on('connection',()=> setSocketConnected(true))
+    }, [])
+   
     // need fetch new messages the selectedChat changes so put that in dependency
     useEffect(() => {
       fetchMessages();
+      selectedChatCompare = selectedChat;
     },[selectedChat])
+   /**
+     * Callback function to handle incoming messages received from the socket server.
+     * @param {Object} newMsgRecived The new message received from the socket server.
+   */
+  useEffect(() => {
+      socket.on("message received", (newMsgRecived) => {
+          if (!selectedChat || selectedChatCompare._id !== newMsgRecived.chat._id) {
+              console.log("fuck");
+          } else {
+              console.log("fuck2");
+              setMessages((prevMessages) => [...prevMessages, newMsgRecived]);
+          }
+      });
+      return () => socket.off("message received"); 
+  },[messages]);
+  
+    
     const sendMessage = async(event) => {
       console.log("sendMessage called");
       if(event.key === "Enter" && newMessage ) {
@@ -52,12 +80,16 @@ const SingleChat = ({fetchAgain, setFetchAgain}) => {
             chatId:selectedChat._id
           },config)
           console.log("drrr",data);
+          socket.emit("new message", data);
           setMessages([...messages,data])
         }catch(error){
           console.log(error.data.message);
         }
       }
     }
+
+  
+    
     const typingHandler = (event) => {
       setNewMessage(event.target.value)
     }

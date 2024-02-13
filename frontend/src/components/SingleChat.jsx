@@ -13,7 +13,7 @@ import ScrollableChatFeed from './ui/singlechat/ScrollableChatFeed'
 const ENDPOINT= "http://localhost:4001";
 var socket, selectedChatCompare;
 const SingleChat = ({fetchAgain, setFetchAgain }) => {
-    const { selectedChat, setSelectedChat ,user ,notification, setNotification  } = ChatState()
+    const { selectedChat, setSelectedChat ,user ,notification, setNotification,latestMessages , setLatestMessages  } = ChatState()
     const [messages, setMessages] = useState([]);
     const [loading, setloading] = useState(false)
     const [newMessage, setNewMessage ] = useState();
@@ -36,7 +36,7 @@ const SingleChat = ({fetchAgain, setFetchAgain }) => {
         setloading(false)
         socket.emit("join chat", selectedChat._id)
       }catch(error){
-        console.log(error.data.message);
+        console.log(error);
       }
     }
     useEffect(() => {
@@ -58,10 +58,11 @@ const SingleChat = ({fetchAgain, setFetchAgain }) => {
    */
   useEffect(() => {
       socket.on("message received", (newMsgRecived) => {
-          if (!selectedChat ) {
+          if (!selectedChat || selectedChatCompare._id !== newMsgRecived.chat._id) {
               
                 setNotification(newMsgRecived)
                 //we want fetch this entire page soo
+                setLatestMessages((prev) => [...prev,newMsgRecived])
                 setFetchAgain(!fetchAgain)
            
           } else {
@@ -105,16 +106,21 @@ const SingleChat = ({fetchAgain, setFetchAgain }) => {
 const typingHandler = (event) => {
   setNewMessage(event.target.value);
   if (!socketConnected) return;
-  if (!typing) {
+  if (!typing ) {
     setTyping(true);
     socket.emit('typing', selectedChat._id);
   }
   
-  clearTimeout(typingTimer);
-  typingTimer = setTimeout(() => {
-    socket.emit("stop typing", selectedChat._id);
-    setTyping(false);
-  }, 3400);
+  let lastTypingTime = new Date().getTime();
+    var timerLength = 3000;
+    setTimeout(() => {
+      var timeNow = new Date().getTime();
+      var timeDiff = timeNow - lastTypingTime;
+      if (timeDiff >= timerLength && typing) {
+        socket.emit("stop typing", selectedChat._id);
+        setTyping(false);
+      }
+    }, timerLength);
 }
 
   return (

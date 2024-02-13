@@ -138,7 +138,7 @@ const CreateGroupModal = ({ children }) => {
             <Button className="btn-modal" mr={3} onClick={onClose}>
               Cancel
             </Button>
-            {inputValues.groupName.trim().length>= 3 && inputValues.groupName.trim().length <= 10 ?<Button onClick={() => setIsOpenSecondModal(true)} className="btn-modal">
+            {inputValues.groupName.trim().length>= 3 && inputValues.groupName.trim().length <= 13 ?<Button onClick={() => setIsOpenSecondModal(true)} className="btn-modal">
               Next
             </Button>: <Button color={'gray'} cursor={'not-allowed'} style={{
                border: 'none' ,

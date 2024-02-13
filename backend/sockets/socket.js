@@ -31,6 +31,9 @@ function initializeSocket(server) {
             console.log("User joined room" + room);
         });
 
+        socket.on('typing',(room) => socket.in(room).emit("typing"))
+        socket.on('stop typing',(room) => socket.in(room).emit("stop typing"))
+
         // New message event: Triggered when a client sends a new message
         socket.on("new message", (newMsgRecived) => {
             var chat = newMsgRecived.chat;
@@ -42,6 +45,10 @@ function initializeSocket(server) {
                 }
             });
         });
+
+        socket.off('setup', () =>{
+            socket.leave(userData._id)
+        })
     });
 }
 

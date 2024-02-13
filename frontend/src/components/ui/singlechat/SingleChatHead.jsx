@@ -8,7 +8,7 @@ import { ChatState } from '../../../context/ChatProvider';
 import ProfileViewModal from '../../miscellaneous/ProfileViewModal';
 import UpdateGroupModal from '../../miscellaneous/UpdateGroupModal';
 
-const SingleChatHead = ({ selectedChat, setSelectedChat  }) => {
+const SingleChatHead = ({ selectedChat, setSelectedChat ,isTyping }) => {
   const isSmallDevice = useMediaQuery("only screen and (max-width: 768px)");
   const { user } = ChatState();
 
@@ -39,7 +39,20 @@ const SingleChatHead = ({ selectedChat, setSelectedChat  }) => {
              
               src={getProfileSender(user, selectedChat.users)}
             />
-            <Text mt={'1'} paddingLeft={'7px'}  fontWeight={'700'} letterSpacing={'.41px'} fontSize={'1.1rem'} fontFamily={'Open Sans'}>{getChatEnderName(user, selectedChat.users)}</Text>
+            <Box
+            display={'flex'}
+            flexDirection={'column'}
+            >
+
+<Text mt={'1'} paddingLeft={'7px'}  fontWeight={'700'} letterSpacing={'.41px'} fontSize={'1.1rem'} fontFamily={'Open Sans'}>{getChatEnderName(user, selectedChat.users)}</Text>
+<Box height={3} ml={1.5} color="gray.500">
+{isTyping && (
+  
+      <Text fontSize="sm">Typing...</Text>
+  
+  )}     </Box>
+            </Box>
+            
           </Box>
         ):(
             <Box display="flex"  ml={3}>

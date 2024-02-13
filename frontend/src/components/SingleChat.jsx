@@ -6,17 +6,20 @@ import SingleChatWelcome from './ui/singlechat/SingleChatWelcome'
 import { Box, FormControl, Input, Spinner } from '@chakra-ui/react'
 import axios from 'axios'
 import ScrollableFeed from './ui/singlechat/ScrollableChatFeed'
+import Lottie from 'react-lottie'
 import io from 'socket.io-client'
 import ScrollableChatFeed from './ui/singlechat/ScrollableChatFeed'
+
 const ENDPOINT= "http://localhost:4001";
 var socket, selectedChatCompare;
-const SingleChat = ({fetchAgain, setFetchAgain}) => {
-    const { selectedChat, setSelectedChat ,user   } = ChatState()
+const SingleChat = ({fetchAgain, setFetchAgain }) => {
+    const { selectedChat, setSelectedChat ,user ,notification, setNotification  } = ChatState()
     const [messages, setMessages] = useState([]);
     const [loading, setloading] = useState(false)
     const [newMessage, setNewMessage ] = useState();
     const [socketConnected, setSocketConnected] = useState(false)
-
+    const [typing, setTyping] = useState(false)
+    const [isTyping, setIsTyping] = useState(false)
     
     const fetchMessages = async() => {
       if(!selectedChat)return
@@ -39,7 +42,9 @@ const SingleChat = ({fetchAgain, setFetchAgain}) => {
     useEffect(() => {
       socket = io(ENDPOINT)
       socket.emit("setup",user)
-      socket.on('connection',()=> setSocketConnected(true))
+      socket.on('connected',()=> setSocketConnected(true))
+      socket.on('typing',() => setIsTyping(true))
+      socket.on('stop typing',() => setIsTyping(false))
     }, [])
    
     // need fetch new messages the selectedChat changes so put that in dependency
@@ -53,8 +58,12 @@ const SingleChat = ({fetchAgain, setFetchAgain}) => {
    */
   useEffect(() => {
       socket.on("message received", (newMsgRecived) => {
-          if (!selectedChat || selectedChatCompare._id !== newMsgRecived.chat._id) {
-              console.log("fuck");
+          if (!selectedChat ) {
+              
+                setNotification(newMsgRecived)
+                //we want fetch this entire page soo
+                setFetchAgain(!fetchAgain)
+           
           } else {
               console.log("fuck2");
               setMessages((prevMessages) => [...prevMessages, newMsgRecived]);
@@ -67,6 +76,7 @@ const SingleChat = ({fetchAgain, setFetchAgain}) => {
     const sendMessage = async(event) => {
       console.log("sendMessage called");
       if(event.key === "Enter" && newMessage ) {
+        socket.emit('stop typing',selectedChat._id)
         try{
           const config= {
             headers: {
@@ -90,15 +100,29 @@ const SingleChat = ({fetchAgain, setFetchAgain}) => {
 
   
     
-    const typingHandler = (event) => {
-      setNewMessage(event.target.value)
-    }
+    let typingTimer;
+
+const typingHandler = (event) => {
+  setNewMessage(event.target.value);
+  if (!socketConnected) return;
+  if (!typing) {
+    setTyping(true);
+    socket.emit('typing', selectedChat._id);
+  }
+  
+  clearTimeout(typingTimer);
+  typingTimer = setTimeout(() => {
+    socket.emit("stop typing", selectedChat._id);
+    setTyping(false);
+  }, 3400);
+}
+
   return (
     < >
          {
             selectedChat ? (
                 <>
-                <SingleChatHead selectedChat={selectedChat} setSelectedChat={setSelectedChat} />
+                <SingleChatHead isTyping={isTyping} selectedChat={selectedChat} setSelectedChat={setSelectedChat} />
                 <Box
                   width={'100%'}
                   display={'flex'}
@@ -116,6 +140,7 @@ const SingleChat = ({fetchAgain, setFetchAgain}) => {
                      </> : <Spinner alignSelf={'center'} margin={'auto'} size={'xl'} /> }
                 </Box> 
                 <FormControl  isRequired mb={1}  >
+               
                   <Input
                     variant={'filled'}
                     placeholder="Type a message"

@@ -13,6 +13,11 @@ const message = mongoose.Schema({
     chat: {
         type: mongoose.Schema.Types.ObjectId,
         ref:'Chat'
+    },
+    status:{
+        type:String,
+        default:"sent",
+        enum:["sent","delivered","seen"]
     }
 },
     {

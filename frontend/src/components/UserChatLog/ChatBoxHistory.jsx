@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { ChatState } from '../../context/ChatProvider';
 import axios from 'axios';
-import { Avatar, Box, Spinner, Stack, Text } from '@chakra-ui/react';
-import { getChatEnderName, getProfileSender } from '../../config/chatHelpers';
+import { Avatar, Box, Circle, Spinner, Stack, Text } from '@chakra-ui/react';
+import {  getByID, getChatEnderName, getLatestMsglength, getProfileSender } from '../../config/chatHelpers';
 
-export const ChatBoxHistory = ({fetchAgain}) => {
+export const ChatBoxHistory = ({ fetchAgain }) => {
   const [logged, setLogged] = useState(false);
-  const { user, selectedChat, chat, setChats, setSelectedChat } = ChatState();
+  const { user, selectedChat, chat, setChats, setSelectedChat, latestMessages, messages } = ChatState();
 
+  const latestMsgs = latestMessages;
   const fetchChats = async () => {
     try {
       const config = {
@@ -34,7 +35,7 @@ export const ChatBoxHistory = ({fetchAgain}) => {
   return (
     <div>
       {chat.length >= 1 ? (
-        <Stack overflowY={'scroll'} sx={{ 
+        <Stack overflowY={'scroll'} sx={{
           '::-webkit-scrollbar': {
             display: 'none'
           }
@@ -43,6 +44,7 @@ export const ChatBoxHistory = ({fetchAgain}) => {
             <Box
               key={chatt._id}
               display={'flex'}
+              position="relative"
               onClick={() => handleClick(chatt)}
               cursor="pointer"
               bg={selectedChat === chatt ? "#E0E0E0" : "#0000"}
@@ -50,7 +52,7 @@ export const ChatBoxHistory = ({fetchAgain}) => {
               px={3}
               py={2}
               borderRadius="lg"
-             className='chats-history-box'
+              className='chats-history-box'
             >
               <Avatar
                 mr={2}
@@ -61,9 +63,19 @@ export const ChatBoxHistory = ({fetchAgain}) => {
                 <Text className='text-chat-log' >
                   {!chatt.isGroupChat ? getChatEnderName(user, chatt.users) : chatt.chatName}
                 </Text>
+                <Box>
+                  {getByID(latestMsgs, chatt._id) || 'jghjg'}
+                </Box>
               </Box>
+            {latestMessages && getByID(latestMsgs, chatt._id) && getByID(latestMsgs, chatt._id).length >= 1 &&  <Box  position="absolute" right="10px"  top={'25%'} >
+                <Circle size="30px" bg="green.500" color="white" textAlign="center">
+                  <Text>{getLatestMsglength(latestMsgs, chatt._id)}</Text>
+                </Circle>
+              </Box>}
             </Box>
+
           ))}
+
         </Stack>
       ) : (
         <Box display="flex" justifyContent="center" alignItems="center" marginTop={'50%'}>

@@ -74,9 +74,37 @@ export const isNotLoggedUser = ( message, i, userId) => {
     )
 
   };
-  
+  export const getByID = (unreadMessages, chatId) => {
+    const filteredUnread = unreadMessages.filter((msg) => msg.chat._id==chatId);
+    console.log("filteredUnread", filteredUnread);
+    
+    const lastMessage = filteredUnread[filteredUnread.length - 1];
+    console.log("lastMessage", lastMessage);
+    
+    if (lastMessage) {
+        const content = lastMessage.content;
+        return content;
+    } else {
+        return null; 
+    }
+}
 
-  
+// export const checkUnread = (unreadMessages, chatId) => {
+//     const v = unreadMessages.filter((msg) => msg.chat._id==chatId);
+//   if(v.length > 0){
+//     return
+//   }else{
+//     return false
+//   }    
+// }
+export const getLatestMsglength = (unreadMessages, chatId) => {
+    const filteredUnread = unreadMessages.filter((msg) => msg.chat._id==chatId);
+    console.log("filteredUnread", filteredUnread);
+    
+   return filteredUnread.length
+}
+
+
 
 //   export const isLastMessage = (messages, i, userId) => {
 //     return (

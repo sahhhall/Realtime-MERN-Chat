@@ -32,6 +32,7 @@ const SingleChat = ({fetchAgain, setFetchAgain }) => {
         }
         const { data } = await axios.get(`http://localhost:4001/api/message/${selectedChat._id}`,config)
        console.log("msgs",data);
+       setLatestMessages([]);
         setMessages(data);
         setloading(false)
         socket.emit("join chat", selectedChat._id)

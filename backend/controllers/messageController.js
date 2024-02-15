@@ -70,8 +70,34 @@ const fetchMessages = asyncHandler(async(req,res) => {
     }
 })
 
+const updateMessageStatus = asyncHandler(async(req,res) => {
+    try{
+        const messageId = req.params.messageId
+        const message = await Message.findById(messageId);
+        if( !message ){
+            console.log('Message not found');
+            return; 
+        }
+        const updatedStatus = await Message.findByIdAndUpdate(messageId,{
+            status:"seen"
+        },
+        {
+            new:true
+        })
+        .populate("sender","name picture email")
+        .populate("chat");
+
+        res.status(200).json(updatedStatus)
+
+    }catch(error){
+        console.log("error updatinng statud",error);
+        res.status(400).json( { error:"failed to update status" } )
+    }
+})
+
 module.exports = {
     sendMessage,
     fullMessages,
-    fetchMessages
+    fetchMessages,
+    updateMessageStatus
 }

@@ -17,7 +17,7 @@ const message = mongoose.Schema({
     status:{
         type:String,
         default:"sent",
-        enum:["sent","delivered","seen"]
+        enum:["sent","seen"]
     }
 },
     {

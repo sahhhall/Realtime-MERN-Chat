@@ -1,6 +1,6 @@
 # MERN Chat App
 > A real-time chat application built with the MERN stack (MongoDB, Express.js, React, Node.js),allowing users to engage in real-time conversations with one another
-> Live demo [_here_](https://www.example.com). 
+<!-- > Live demo [_here_](https://www.example.com).  -->
 
 ## Table of Contents
 * [General Info](#general-information)
@@ -36,7 +36,7 @@ List the ready features here:
 - One-to-one chat functionality
 - Real-time notification functionality
 - Group chat functionality
-- Ability to create new chat groups
+- Ability to create new chat groups & update
 
 
 
@@ -103,7 +103,7 @@ To do:
 
 
 ## Acknowledgements
-Give credit here.
+
 - This project was inspired by how easy and smooth it is to chat on apps like WhatsApp and Instagram. Seeing how people connect and share things on these apps gave me the idea to create a chat app that's just as simple and helpful. I wanted to understand how they make it work so well and build something similar.
 - Special thanks to the developers of Socket.IO for their powerful real-time communication library.
 - Many thanks to some YouTubers whose tutorials provided valuable solutions when I encountered challenges    during development.

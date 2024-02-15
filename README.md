@@ -55,25 +55,25 @@ List the ready features here:
 - **React**: Version 18.2.0 or higher.
 
 ### Setup Instructions
-1. **Clone the Repository**: Clone the project repository from GitHub using the following command:
+1. **Clone the Repository**: 
 
 2. **Navigate to the Project Directory**: Open a terminal and navigate to the root directory of the cloned project:
 
 3. **Install Backend Dependencies**: Navigate to the backend directory and install the required dependencies listed in the `package.json` file:
-cd backend
-npm install
+`cd backend`
+`npm install`
 
 4. **Install Frontend Dependencies**: Navigate to the frontend directory and install the required dependencies listed in the `package.json` file:
-cd ../frontend
-npm install
+`cd ../frontend`
+`npm install`
 
 5. **Start the Backend Server**: Go back to the root directory and start the backend server:
-cd ..
-npm start
+`cd ..`
+`npm start`
 
 6. **Start the Frontend Server**: Open another terminal window, navigate to the frontend directory, and start the frontend server:
-cd frontend
-npm run dev
+`cd frontend`
+`npm run dev`
 
 <!-- 7. **Access the Application**: Once both the backend and frontend servers are running, you can access the chat application by opening a web browser and navigating to `http://localhost:3000`. -->
 

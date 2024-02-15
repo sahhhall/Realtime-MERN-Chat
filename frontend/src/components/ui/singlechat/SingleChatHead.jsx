@@ -7,6 +7,7 @@ import { getChatEnderName, getProfileSender } from '../../../config/chatHelpers'
 import { ChatState } from '../../../context/ChatProvider';
 import ProfileViewModal from '../../miscellaneous/ProfileViewModal';
 import UpdateGroupModal from '../../miscellaneous/UpdateGroupModal';
+import VideoChat from './VideoChat';
 
 const SingleChatHead = ({ selectedChat, setSelectedChat ,isTyping }) => {
   const isSmallDevice = useMediaQuery("only screen and (max-width: 768px)");
@@ -82,13 +83,7 @@ const SingleChatHead = ({ selectedChat, setSelectedChat ,isTyping }) => {
             </ListItem>}
 
            {!selectedChat.isGroupChat && <ListItem>
-            <FontAwesomeIcon
- color='black'
-          cursor="pointer"
-     
-          onClick={() => setSelectedChat("")}
-          icon={faVideo}
-        />
+          <VideoChat />
             </ListItem>}
            
            

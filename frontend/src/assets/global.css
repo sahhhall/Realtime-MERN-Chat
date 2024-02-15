@@ -133,6 +133,11 @@ color: blue;
 .chats-history-box:hover{
 background: #f3f3f3;
 }
+.video-player{
+    background-color: black;
+    width: 100%;
+    height: 300px;
+}
 @media screen and (min-width: 902px){
     .chat-area{
         display: block !important;

@@ -1,8 +1,8 @@
 import formatedDate from "../utils/formatDate";
 
 export const getChatEnderName = (loggedUser, users) => {
-    console.log("loggedUser:", loggedUser);
-    console.log("users:", users);
+    // console.log("loggedUser:", loggedUser);
+    // console.log("users:", users);
     const chatEnder = users ?. find(user => user ?. _id !== loggedUser._id);
     return chatEnder ? chatEnder.name : null;
 };
@@ -76,10 +76,10 @@ export const isNotLoggedUser = ( message, i, userId) => {
   };
   export const getByID = (unreadMessages, chatId) => {
     const filteredUnread = unreadMessages.filter((msg) => msg.chat._id==chatId);
-    console.log("filteredUnread", filteredUnread);
+    // console.log("filteredUnread", filteredUnread);
     
     const lastMessage = filteredUnread[filteredUnread.length - 1];
-    console.log("lastMessage", lastMessage);
+    // console.log("lastMessage", lastMessage);
     
     if (lastMessage) {
         const content = lastMessage.content;
@@ -99,7 +99,7 @@ export const isNotLoggedUser = ( message, i, userId) => {
 // }
 export const getLatestMsglength = (unreadMessages, chatId) => {
     const filteredUnread = unreadMessages.filter((msg) => msg.chat._id==chatId);
-    console.log("filteredUnread", filteredUnread);
+    // console.log("filteredUnread", filteredUnread);
     
    return filteredUnread.length
 }

@@ -31,8 +31,10 @@ const SingleChat = ({fetchAgain, setFetchAgain }) => {
           }
         }
         const { data } = await axios.get(`http://localhost:4001/api/message/${selectedChat._id}`,config)
-       console.log("msgs",data);
-       setLatestMessages([]);
+      //  remove  selectred chat messages from latestMessages 
+       const filteredMessages = latestMessages.filter(message => message.chat._id !== selectedChat._id);
+      //  console.log("filterd",filteredMessages);
+       setLatestMessages(filteredMessages);
         setMessages(data);
         setloading(false)
         socket.emit("join chat", selectedChat._id)

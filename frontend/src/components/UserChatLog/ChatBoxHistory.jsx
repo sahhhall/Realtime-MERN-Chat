@@ -64,7 +64,7 @@ export const ChatBoxHistory = ({ fetchAgain }) => {
                   {!chatt.isGroupChat ? getChatEnderName(user, chatt.users) : chatt.chatName}
                 </Text>
                 <Box>
-                  {getByID(latestMsgs, chatt._id) || 'jghjg'}
+                  {getByID(latestMsgs, chatt._id) || ''}
                 </Box>
               </Box>
             {latestMessages && getByID(latestMsgs, chatt._id) && getByID(latestMsgs, chatt._id).length >= 1 &&  <Box  position="absolute" right="10px"  top={'25%'} >
